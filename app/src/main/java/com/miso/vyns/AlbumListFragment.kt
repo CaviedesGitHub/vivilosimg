@@ -48,6 +48,11 @@ class AlbumListFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_album_list, container, false)
         binding.viewModel = viewModel
+        recyclerView = binding.recyclervyns
+        recyclerView.layoutManager = LinearLayoutManager(context)
+        recyclerView.adapter = AlbumItemAdapter()
+        recyclerView.setHasFixedSize(true)
+        //binding.recyclervyns.adapter = AlbumItemAdapter()
         return binding.root
     }
 
@@ -55,10 +60,10 @@ class AlbumListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val myDataset = DataSource().loadAlbums()
         binding.lifecycleOwner = viewLifecycleOwner
-        recyclerView = binding.recyclerView
-        recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.adapter = AlbumItemAdapter(myDataset)
-        recyclerView.setHasFixedSize(true)
+        //recyclerView = binding.recyclervyns
+        //recyclerView.layoutManager = LinearLayoutManager(context)
+        //recyclerView.adapter = AlbumItemAdapter(mutableListOf())
+        //recyclerView.setHasFixedSize(true)
     }
 
     companion object {

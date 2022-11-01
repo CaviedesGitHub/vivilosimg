@@ -18,6 +18,12 @@ class VynsViewModel: ViewModel() {
     private val _album = MutableLiveData<VynsAlbum>()
     val album: LiveData<VynsAlbum> = _album
 
+    private val _palabra = MutableLiveData<String>()
+    val palabra: LiveData<String> = _palabra
+
+    private val _miUrl = MutableLiveData<String>()
+    val miUrl: LiveData<String> = _miUrl
+
     init {
         getVynsAlbums()
     }
@@ -35,5 +41,10 @@ class VynsViewModel: ViewModel() {
             }
 
         }
+    }
+
+    fun calculaLongitud(pal: String){
+        _palabra.value=pal
+        _miUrl.value="https://d7lju56vlbdri.cloudfront.net/var/ezwebin_site/storage/images/_aliases/img_1col/noticias/solar-orbiter-toma-imagenes-del-sol-como-nunca-antes/9437612-1-esl-MX/Solar-Orbiter-toma-imagenes-del-Sol-como-nunca-antes.jpg"
     }
 }
