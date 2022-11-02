@@ -34,7 +34,11 @@
     <fragment
         android:id="@+id/albumFragment"
         android:name="com.miso.vyns.AlbumFragment"
-        android:label="AlbumFragment" />
+        android:label="AlbumFragment" >
+        <argument
+            android:name="id"
+            app:argType="integer" />
+    </fragment>
     <fragment
         android:id="@+id/artistaFragment"
         android:name="com.miso.vyns.ArtistaFragment"

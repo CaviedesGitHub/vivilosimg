@@ -1,5 +1,6 @@
 package com.miso.vyns
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -26,6 +27,7 @@ class VynsViewModel: ViewModel() {
 
     init {
         getVynsAlbums()
+        //getVynsAlbumDet(103)
     }
 
     //private
@@ -33,7 +35,7 @@ class VynsViewModel: ViewModel() {
         viewModelScope.launch {
             try {
                 val listResult = VynsApi.retrofitService.getAlbums()
-                _album.value=listResult[0]
+                //_album.value=listResult[0]
                 _lstAlbums.value=listResult
                 _status.value = "Success: ${listResult.size} Vynilos Albums retrieved"
             } catch (e: Exception) {
@@ -43,8 +45,51 @@ class VynsViewModel: ViewModel() {
         }
     }
 
+    fun getVynsAlbumDet(id: Int) {
+        Log.d("Album", "Inicio AlbumDet Get: "+id.toString())
+        viewModelScope.launch {
+            try {
+                val result = VynsApi.retrofitService.getAlbumDet(id)
+                Log.d("Album", "Inicio AlbumDet Get Post")
+                Log.d("Album", "@{result.id}: "+result.id.toString())
+                Log.d("Album", "@{result.id}: "+result.name)
+                Log.d("Album", "@{result.id}: "+result.genre)
+                Log.d("Album", "@{result.id}: "+result.releaseDate)
+                _album.value = result
+                _status.value = "Success: Vynilos Album retrieved"
+                //notifyPropertyChanged(BR._all);
+            } catch (e: Exception) {
+                _status.value = "Failure: ${e.message}"
+            }
+        }
+    }
+
     fun calculaLongitud(pal: String){
         _palabra.value=pal
         _miUrl.value="https://d7lju56vlbdri.cloudfront.net/var/ezwebin_site/storage/images/_aliases/img_1col/noticias/solar-orbiter-toma-imagenes-del-sol-como-nunca-antes/9437612-1-esl-MX/Solar-Orbiter-toma-imagenes-del-Sol-como-nunca-antes.jpg"
+    }
+
+    fun obtenerId22(pos: Int): Int {
+        var lstTemp = _lstAlbums.value
+        var idA: Int = 0
+        for ((indice, item) in lstTemp!!.withIndex()) {
+            if (indice==pos) {
+                idA = item.id
+            }
+        }
+        return idA
+    }
+
+    fun obtenerId(pos: Int): Int? {
+        var lstTemp = _lstAlbums.value
+        return lstTemp?.get(pos)?.id
+    }
+
+    fun actAlbum(id: Int){
+        _album.value=_lstAlbums.value?.get(id)
+        Log.d("INFO","album.id: "+album.value?.id.toString())
+        Log.d("INFO","album.id: "+album.value?.name.toString())
+        Log.d("INFO","album.id: "+album.value?.cover.toString())
+        Log.d("INFO","album.id: "+album.value?.genre.toString())
     }
 }

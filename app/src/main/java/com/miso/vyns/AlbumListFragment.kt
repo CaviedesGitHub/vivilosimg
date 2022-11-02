@@ -1,17 +1,22 @@
 package com.miso.vyns
 
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.miso.vyns.adapters.AlbumItemAdapter
 import com.miso.vyns.data.DataSource
 import com.miso.vyns.databinding.FragmentAlbumListBinding
+import com.miso.vyns.listeners.RecyclerItemClickListener
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -27,7 +32,8 @@ private const val ARG_PARAM2 = "param2"
 class AlbumListFragment : Fragment() {
     private lateinit var binding: FragmentAlbumListBinding
     private lateinit var recyclerView: RecyclerView
-    private val viewModel: VynsViewModel by viewModels()
+    private val viewModel: VynsViewModel by activityViewModels() //by viewModels()
+    lateinit var contexto: Context
 
     // TODO: Rename and change types of parameters
     private var param1: String? = null
@@ -53,6 +59,7 @@ class AlbumListFragment : Fragment() {
         recyclerView.adapter = AlbumItemAdapter()
         recyclerView.setHasFixedSize(true)
         //binding.recyclervyns.adapter = AlbumItemAdapter()
+        this.contexto= requireContext().applicationContext
         return binding.root
     }
 
@@ -60,10 +67,26 @@ class AlbumListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val myDataset = DataSource().loadAlbums()
         binding.lifecycleOwner = viewLifecycleOwner
-        //recyclerView = binding.recyclervyns
-        //recyclerView.layoutManager = LinearLayoutManager(context)
-        //recyclerView.adapter = AlbumItemAdapter(mutableListOf())
-        //recyclerView.setHasFixedSize(true)
+        binding.proofParam.setOnClickListener {
+            val action = AlbumListFragmentDirections.actionAlbumListFragmentToAlbumFragment(id=102)
+            view.findNavController().navigate(action)
+        }
+        recyclerView.addOnItemTouchListener(RecyclerItemClickListener(contexto, recyclerView, object : RecyclerItemClickListener.OnItemClickListener {
+
+            override fun onItemClick(view: View, position: Int) {
+                Log.d("CLICK","Click"+position.toString())
+                var idA=viewModel.obtenerId(position)
+                Log.d("CLICK","Id"+idA.toString())
+                //viewModel.getVynsAlbumDet(idA!!)
+                //Thread.sleep(1000)
+                viewModel.actAlbum(position)
+                val action = AlbumListFragmentDirections.actionAlbumListFragmentToAlbumFragment(id=idA!!)
+                view.findNavController().navigate(action)
+            }
+            override fun onItemLongClick(view: View?, position: Int) {
+                TODO("do nothing")
+            }
+        }))
     }
 
     companion object {

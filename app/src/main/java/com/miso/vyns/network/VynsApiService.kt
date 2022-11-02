@@ -1,12 +1,14 @@
 package com.miso.vyns.network
 
-import com.miso.vyns.model.VynsAlbum
-import retrofit2.Retrofit
 //import retrofit2.converter.scalars.ScalarsConverterFactory
-import retrofit2.http.GET
+import com.miso.vyns.model.VynsAlbum
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import retrofit2.Call
+import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import retrofit2.http.GET
+import retrofit2.http.Path
 
 private const val BASE_URL =
     "https://vinyl-miso.herokuapp.com/"
@@ -30,6 +32,10 @@ private val retrofit = Retrofit.Builder()
 interface VynsApiService {
     @GET("albums")
     suspend fun getAlbums(): List<VynsAlbum>
+
+    @GET("albums/{id}")
+    suspend fun getAlbumDet(@Path("id") id: Int?): VynsAlbum
+
 }
 
 object VynsApi {

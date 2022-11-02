@@ -21,6 +21,12 @@
         <!--   android:text="@{viewModel.status}" /> -->
 
 
+        <Button
+            android:id="@+id/proofParam"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Button" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclervyns"
             android:layout_width="match_parent"

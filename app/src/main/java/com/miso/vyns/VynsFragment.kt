@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import com.miso.vyns.databinding.FragmentVynsBinding
@@ -21,7 +22,7 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class VynsFragment : Fragment() {
-    private val viewModel: VynsViewModel by viewModels()
+    private val viewModel: VynsViewModel by activityViewModels() //by viewModels()
     private lateinit var binding: FragmentVynsBinding
     // TODO: Rename and change types of parameters
     private var param1: String? = null
